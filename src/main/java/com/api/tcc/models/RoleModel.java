@@ -1,6 +1,7 @@
 package com.api.tcc.models;
 
 import com.api.tcc.enums.RoleEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -17,7 +18,8 @@ public class RoleModel implements GrantedAuthority, Serializable {
     @Enumerated(EnumType.STRING)
     @Column(unique = true)
     private RoleEnum role;
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    @Transient
     Set<UserModel> users;
 
     public RoleModel(){

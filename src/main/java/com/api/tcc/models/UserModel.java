@@ -28,7 +28,7 @@ public class UserModel implements UserDetails, Serializable {
     @Column(name = "credentials_non_expired")
     private Boolean credentialsNonExpired;
     private Boolean enabled;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_users_roles",
             joinColumns = {@JoinColumn (name = "user_id")},
             inverseJoinColumns = {@JoinColumn (name = "role_id")})
