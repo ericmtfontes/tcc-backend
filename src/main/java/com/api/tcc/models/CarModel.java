@@ -1,6 +1,7 @@
 package com.api.tcc.models;
 
 import com.api.tcc.enums.CategoryEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -23,6 +24,7 @@ public class CarModel implements Serializable {
     private String description;
 
     private Double pricePerDay;
+    @JsonIgnore
     private Boolean rented;
 
     public CarModel(){

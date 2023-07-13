@@ -35,6 +35,7 @@ public class CarService {
         if(carRepository.findByPlate(carModel.getPlate()) != null){
             throw new CarAlreadyExistsException("Car already exists");
         }
+        carModel.setRented(false);
         carRepository.save(carModel);
     }
 
