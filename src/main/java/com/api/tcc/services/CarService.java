@@ -15,6 +15,10 @@ public class CarService {
     @Autowired
     CarRepository carRepository;
 
+    public CarModel findById(Long id){
+        return carRepository.findById(id).orElseThrow(() -> new CarNotFoundException("Car id " + id + " not found"));
+    }
+
     public List<CarModel> findAll(String search){
         if(search != null){
             if(carRepository.findAllNonRented(search).isEmpty()){
@@ -49,7 +53,7 @@ public class CarService {
         carModel.setYear(car.getYear());
         carModel.setDescription(car.getDescription());
         carModel.setPricePerDay(car.getPricePerDay());
-        carModel.setRented(car.getRented());
+        carModel.setRented(Boolean.FALSE);
         return carRepository.save(carModel);
     }
 
