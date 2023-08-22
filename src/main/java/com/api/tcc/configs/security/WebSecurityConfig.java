@@ -38,6 +38,8 @@ public class WebSecurityConfig{
                 .permitAll()
                 .requestMatchers(HttpMethod.GET, "/cars")
                 .permitAll()
+                .requestMatchers(HttpMethod.GET, "/cars/**")
+                .permitAll()
                 .requestMatchers(HttpMethod.POST, "/cars").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/cars/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/cars/**").hasRole("ADMIN")

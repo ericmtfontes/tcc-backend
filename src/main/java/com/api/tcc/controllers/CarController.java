@@ -17,6 +17,11 @@ public class CarController {
     @Autowired
     CarService carService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CarModel> findById(@PathVariable Long id){
+        return new ResponseEntity<>(carService.findById(id), HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<List<CarModel>> findAll(@RequestParam(required = false) String search){
         return new ResponseEntity<>(carService.findAll(search), HttpStatus.OK);
