@@ -1,5 +1,6 @@
 package com.api.tcc.controllers;
 
+import com.api.tcc.dto.RentDTO;
 import com.api.tcc.models.CarModel;
 import com.api.tcc.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,11 @@ public class CarController {
     public ResponseEntity<?> delete(@PathVariable Long id){
         carService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/rent")
+    public ResponseEntity<HttpStatus> createRent(@RequestBody RentDTO data){
+        carService.createRent(data.idCar(), data.id(), data.day());
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

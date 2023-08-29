@@ -32,4 +32,11 @@ public class ResourceExceptionHandler {
                 "Resource not found", e.getMessage(), request.getRequestURI());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NotRentedException.class)
+    public ResponseEntity<ExceptionResponse> notRentedException(NotRentedException e, HttpServletRequest request){
+        ExceptionResponse error = new ExceptionResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
+                "Resource not found", e.getMessage(), request.getRequestURI());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 }

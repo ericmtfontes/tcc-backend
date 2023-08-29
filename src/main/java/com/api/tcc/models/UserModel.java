@@ -33,6 +33,9 @@ public class UserModel implements UserDetails, Serializable {
             joinColumns = {@JoinColumn (name = "user_id")},
             inverseJoinColumns = {@JoinColumn (name = "role_id")})
     private Set<RoleModel> roles;
+    @OneToOne
+    @JoinColumn(name = "car_id")
+    private CarModel car;
 
     public UserModel(){
     }
@@ -155,5 +158,13 @@ public class UserModel implements UserDetails, Serializable {
 
     public void setRoles(Set<RoleModel> roles) {
         this.roles = roles;
+    }
+
+    public CarModel getCar() {
+        return car;
+    }
+
+    public void setCar(CarModel car) {
+        this.car = car;
     }
 }

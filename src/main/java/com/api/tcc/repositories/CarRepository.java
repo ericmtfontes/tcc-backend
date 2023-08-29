@@ -10,10 +10,10 @@ import java.util.List;
 @Repository
 public interface CarRepository extends JpaRepository<CarModel, Long> {
 
-    @Query("SELECT c FROM CarModel c WHERE c.rented = 0")
+    @Query("SELECT c FROM CarModel c WHERE c.rented = 0 AND c.trash = 0")
     List<CarModel> findAllNonRented();
     @Query("SELECT c FROM CarModel c WHERE CONCAT(c.category, c.pricePerDay, c.year) LIKE %?1%" +
-            "AND c.rented = 0")
+            "AND c.rented = 0 AND c.trash = 0")
     List<CarModel> findAllNonRented(String search);
     CarModel findByPlate(String plate);
 }
