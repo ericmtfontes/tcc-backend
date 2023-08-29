@@ -27,6 +27,12 @@ public class CarModel implements Serializable {
     @JsonIgnore
     private Boolean rented;
 
+    @JsonIgnore
+    private Boolean trash;
+
+    @OneToOne(mappedBy = "car")
+    private UserModel user;
+
     public CarModel(){
     }
 
@@ -108,5 +114,21 @@ public class CarModel implements Serializable {
 
     public void setRented(Boolean rented) {
         this.rented = rented;
+    }
+
+    public Boolean getTrash() {
+        return trash;
+    }
+
+    public void setTrash(Boolean trash) {
+        this.trash = trash;
+    }
+
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 }

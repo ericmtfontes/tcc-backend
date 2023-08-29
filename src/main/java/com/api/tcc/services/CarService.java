@@ -2,11 +2,17 @@ package com.api.tcc.services;
 
 import com.api.tcc.handler.CarAlreadyExistsException;
 import com.api.tcc.handler.CarNotFoundException;
+import com.api.tcc.handler.NotRentedException;
 import com.api.tcc.models.CarModel;
+import com.api.tcc.models.RentModel;
+import com.api.tcc.models.UserModel;
 import com.api.tcc.repositories.CarRepository;
+import com.api.tcc.repositories.RentRepository;
+import com.api.tcc.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -14,6 +20,15 @@ public class CarService {
 
     @Autowired
     CarRepository carRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    RentRepository rentRepository;
 
     public CarModel findById(Long id){
         return carRepository.findById(id).orElseThrow(() -> new CarNotFoundException("Car id " + id + " not found"));
@@ -39,7 +54,8 @@ public class CarService {
         if(carRepository.findByPlate(carModel.getPlate()) != null){
             throw new CarAlreadyExistsException("Car already exists");
         }
-        carModel.setRented(false);
+        carModel.setRented(Boolean.FALSE);
+        carModel.setTrash(Boolean.FALSE);
         carRepository.save(carModel);
     }
 
@@ -53,12 +69,37 @@ public class CarService {
         carModel.setYear(car.getYear());
         carModel.setDescription(car.getDescription());
         carModel.setPricePerDay(car.getPricePerDay());
-        carModel.setRented(Boolean.FALSE);
         return carRepository.save(carModel);
     }
 
     public void delete(Long id){
         CarModel carModel = carRepository.findById(id).orElseThrow(()-> new CarNotFoundException("Car id " + id + " not found"));
-        carRepository.delete(carModel);
+        carModel.setTrash(Boolean.TRUE);
+        carRepository.save(carModel);
+    }
+
+    public void createRent(Long idCar, Long idUser, Integer day) {
+        CarModel carModel = carRepository.findById(idCar).orElseThrow(() -> new CarNotFoundException("Car id " + idCar + " not found"));
+        UserModel userModel = userRepository.findById(idUser).orElseThrow(() -> new CarNotFoundException("User id " + idUser + " not found"));
+
+        if(validateRent(carModel, userModel)){
+            userModel.setCar(carModel);
+            carModel.setRented(Boolean.TRUE);
+            userRepository.save(userModel);
+            carRepository.save(carModel);
+            double price = carModel.getPricePerDay() * day;
+            RentModel rentModel = new RentModel(userModel, carModel, LocalDate.now(), day, price);
+            rentRepository.save(rentModel);
+        }
+    }
+
+    private boolean validateRent(CarModel carModel, UserModel userModel){
+        if(carModel.getRented()){
+            throw new NotRentedException("Esse veículo já está alugado!");
+        }
+        if(userModel.getCar() != null){
+            throw new NotRentedException("Esse usuario já possui um veículo alugado!");
+        }
+        return true;
     }
 }

@@ -22,6 +22,8 @@ public class RoleModel implements GrantedAuthority, Serializable {
     @Transient
     Set<UserModel> users;
 
+
+
     public RoleModel(){
     }
 

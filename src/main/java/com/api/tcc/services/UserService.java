@@ -7,6 +7,7 @@ import com.api.tcc.models.UserModel;
 import com.api.tcc.repositories.RoleRepository;
 import com.api.tcc.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +38,9 @@ public class UserService {
         userModel.setCredentialsNonExpired(true);
         userModel.setEnabled(true);
         userRepository.save(userModel);
+    }
+
+    public UserModel findById(Long id){
+        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User id " + id + " not found"));
     }
 }
