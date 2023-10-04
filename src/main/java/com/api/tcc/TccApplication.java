@@ -43,7 +43,7 @@ public class TccApplication implements CommandLineRunner {
 		Set<RoleModel> set = new HashSet<>();
 		set.addAll(roleRepository.findAll());
 		UserModel[] usersAdmins = {
-				new UserModel(null, "eric@gmail.com", passwordEncoder.encode("1234"), "Eric",
+				new UserModel(null, "ericmtfontes@gmail.com", passwordEncoder.encode("1234"), "Eric",
 						LocalDate.parse("2000-01-28"), true, true, true, true,
 						set),
 				new UserModel(null, "murilo@gmail.com", passwordEncoder.encode("1234"), "Murilo",
